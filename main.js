@@ -1,62 +1,8 @@
-// <line x1="10" x2="50" y1="110" y2="150" stroke="orange" fill="transparent" stroke-width="5"/>
-
-// <circle cx="10" cy="110" r="10" stroke="#ccc" fill="transparent" stroke-width="1"/>
-
 const canvasElements = []
 let currentAction = null
 
 const canvas = document.querySelector('#canvas')
 const addLineBtn = document.querySelector('#addLine')
-
-
-function oldCode () {
-  const line = document.createElementNS("http://www.w3.org/2000/svg", 'line')
-  let x1 = 10
-  let y1 = 110
-  let x2 = 50
-  let y2 = 150
-
-  line.setAttribute('x1', x1)
-  line.setAttribute('y1', y1)
-  line.setAttribute('x2', x2)
-  line.setAttribute('y2', y2)
-  canvas.append(line)
-
-
-
-  const circle = document.createElementNS("http://www.w3.org/2000/svg", 'circle')
-  circle.classList.add('dot')
-  circle.setAttribute('cx', x2)
-  circle.setAttribute('cy', y2)
-  canvas.append(circle)
-
-
-  const moveListener = e => {
-    console.log(e.movementX, e.movementY)
-    x2 += e.movementX
-    y2 += e.movementY
-
-    circle.setAttribute('cx', x2)
-    circle.setAttribute('cy', y2)
-
-    line.setAttribute('x2', x2)
-    line.setAttribute('y2', y2)
-  }
-
-
-  const downListener = (e) => {
-    console.log('down')
-    canvas.addEventListener('mousemove', moveListener)
-  }
-  const upListener = e => {
-    console.log('up')
-    canvas.removeEventListener('mousemove', moveListener)
-  }
-
-  circle.addEventListener('mousedown', downListener)
-  canvas.addEventListener('mouseup', upListener)
-  canvas.addEventListener('mouseout', upListener)
-}
 
 class LineDot {
   _x = 0
@@ -148,9 +94,6 @@ class Line {
   }
 }
 
-
-
-
 const actions = {
   addLine: {
     _currentLine: null,
@@ -162,7 +105,6 @@ const actions = {
       }
     },
     _addLineClickListener (e) {
-      console.log(this)
       this._clickCount++
       switch (this._clickCount) {
         case 1:
@@ -187,7 +129,6 @@ const actions = {
       }
     },
     start() {
-      console.log('start', this)
       this._currentLine = null
       this._clickCount = 0
       canvas.addEventListener('click', this._addLineClickListener.bind(this))
@@ -199,8 +140,6 @@ const actions = {
     }
   }
 }
-
-
 
 addLineBtn.onclick = () => {
   if (currentAction) {
