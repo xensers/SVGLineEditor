@@ -18,7 +18,7 @@ line {
 }
 
 .dot {
-   opacity: 0;
+  /*opacity: 0;*/
   fill: rgba(100, 100, 100, 0.1);
   stroke: #ccc;
   stroke-width: 1;
@@ -29,4 +29,8 @@ line {
 
 .dot:hover {
   opacity: 1;
+}
+
+button.active {
+  border: 1px solid #00f7ff;
 }

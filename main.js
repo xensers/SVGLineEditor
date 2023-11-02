@@ -2,6 +2,7 @@ const canvasElements = []
 let currentAction = null
 
 const canvas = document.querySelector('#canvas')
+const addEditBtn = document.querySelector('#editing')
 const addLineBtn = document.querySelector('#addLine')
 
 class LineDot {
@@ -95,6 +96,11 @@ class Line {
 }
 
 const actions = {
+  editing: {
+    btnEl: addEditBtn,
+    start () {},
+    end () {}
+  },
   addLine: {
     _currentLine: null,
     _clickCount: 0,
@@ -114,37 +120,51 @@ const actions = {
           this._currentLine.x2 = e.offsetX
           this._currentLine.y2 = e.offsetY
           this._currentLine.append()
-          canvas.addEventListener('mousemove', this._moveListener.bind(this))
+          canvas.addEventListener('mousemove', this._moveListenerBind)
           break;
         case 2:
           if (this._currentLine) {
             this._currentLine.x2 = e.offsetX
             this._currentLine.y2 = e.offsetY
             this._clickCount = 0
-            canvas.removeEventListener('mousemove', this._moveListener.bind(this))
+            canvas.removeEventListener('mousemove', this._moveListenerBind)
             canvasElements.push(this._currentLine)
             this._currentLine = null
           }
           break;
       }
     },
+    btnEl: addLineBtn,
     start() {
       this._currentLine = null
       this._clickCount = 0
-      canvas.addEventListener('click', this._addLineClickListener.bind(this))
+      this._moveListenerBind = this._moveListener.bind(this)
+      this._addLineClickListenerBind = this._addLineClickListener.bind(this)
+      canvas.addEventListener('click', this._addLineClickListenerBind)
     },
     end() {
       this._currentLine = null
       this._clickCount = 0
-      canvas.removeEventListener('click', this._addLineClickListener.bind(this))
+      canvas.removeEventListener('click', this._addLineClickListenerBind)
     }
   }
 }
 
-addLineBtn.onclick = () => {
+function activateAction(actionName) {
   if (currentAction) {
+    currentAction.btnEl.classList.remove('active')
     currentAction.end()
   }
-  currentAction = actions.addLine
-  actions.addLine.start()
+
+
+  if (actions[actionName]) {
+    currentAction = actions[actionName]
+    currentAction.start()
+    currentAction.btnEl.classList.add('active')
+  } else {
+    currentAction = null
+  }
 }
+
+addEditBtn.onclick = () => activateAction('editing')
+addLineBtn.onclick = () => activateAction('addLine')
