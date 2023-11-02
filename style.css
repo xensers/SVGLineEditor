@@ -18,7 +18,7 @@ line {
 }
 
 .dot {
-  /*opacity: 0;*/
+  opacity: 0;
   fill: rgba(100, 100, 100, 0.1);
   stroke: #ccc;
   stroke-width: 1;
@@ -27,6 +27,10 @@ line {
   cursor: pointer;
 }
 
+
+.dot.active {
+  fill: rgba(255, 0, 0, 0.5);
+}
 .dot:hover {
   opacity: 1;
 }
