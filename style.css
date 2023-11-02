@@ -12,9 +12,9 @@ body, html {
 }
 
 line {
-  stroke: orange;
+  stroke: rgb(0, 0, 0);
   fill: transparent;
-  stroke-width: 5;
+  stroke-width: 2;
 }
 
 .dot {
